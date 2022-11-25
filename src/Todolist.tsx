@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FC} from 'react';
+import React, {ChangeEvent, FC, useCallback} from 'react';
 import {TodolistType} from './App';
 import {AddItemForm} from './AddItemForm';
 import {EditableSpan} from './EditableSpan';
@@ -8,6 +8,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
 import {addTaskAC, changeStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/task-reduser";
 import {changeFilterAC, changeTodolistTitleAC, removeTodolistAC} from "./state/todolist-reducer";
+import {TaskRedux} from "./Task.redux";
+import {ButtonWithMemo} from "./ButtonMemo";
 
 
 export type TaskType = {
@@ -24,25 +26,25 @@ export const Todolist: FC<PropsType> = ({todolist}) => {
     const {id, filter, title} = todolist
     let tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[id])
     const dispatch = useDispatch();
-    const addTask = (title: string) => {
+    const addTask = useCallback((title: string) => {
         dispatch(addTaskAC(title, id))
-    }
+    },[dispatch, id])
 
-    const removeTodolist = () => {
+    const removeTodolist = useCallback( () => {
         dispatch(removeTodolistAC(id))
-    }
-    const changeTodolistTitle = (title: string) => {
+    },[dispatch, id])
+    const changeTodolistTitle = useCallback( (title: string) => {
         dispatch(changeTodolistTitleAC(id, title))
-    }
+    },[dispatch, id])
 
-    const onAllClickHandler = () => dispatch(changeFilterAC("all", id))
-    const onActiveClickHandler = () => dispatch(changeFilterAC("active", id))
-    const onCompletedClickHandler = () => dispatch(changeFilterAC("completed", id))
+    const onAllClickHandler = useCallback(() => dispatch(changeFilterAC("all", id)),[dispatch, id])
+    const onActiveClickHandler = useCallback(() => dispatch(changeFilterAC("active", id)),[dispatch, id])
+    const onCompletedClickHandler = useCallback(() => dispatch(changeFilterAC("completed", id)),[dispatch, id])
     if (filter === "active") {
-        tasks = tasks.filter(t => t.isDone === false);
+        tasks = tasks.filter(t => !t.isDone);
     }
     if (filter === "completed") {
-        tasks = tasks.filter(t => t.isDone === true);
+        tasks = tasks.filter(t => t.isDone);
     }
     return <div>
         <h3><EditableSpan value={title} onChange={changeTodolistTitle}/>
@@ -54,45 +56,33 @@ export const Todolist: FC<PropsType> = ({todolist}) => {
         <div>
             {
                 tasks?.map(t => {
-                    const onClickHandler = () => dispatch(removeTaskAC(t.id, id))
-                    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                        let newIsDoneValue = e.currentTarget.checked;
-                        dispatch(changeStatusAC(t.id, newIsDoneValue, id))
-                    }
-                    const onTitleChangeHandler = (newValue: string) => {
-                        dispatch(changeTaskTitleAC(t.id, newValue, id))
-                    }
-
-
-                    return <div key={t.id} className={t.isDone ? "is-done" : ""}>
-                        <Checkbox
-                            checked={t.isDone}
-                            color="primary"
-                            onChange={onChangeHandler}
-                        />
-
-                        <EditableSpan value={t.title} onChange={onTitleChangeHandler}/>
-                        <IconButton onClick={onClickHandler}>
-                            <Delete/>
-                        </IconButton>
-                    </div>
+                    return <TaskRedux
+                            key={t.id}
+                            task={t}
+                            todolistId={id}
+                    />
                 })
             }
         </div>
         <div style={{paddingTop: "10px"}}>
-            <Button variant={filter === 'all' ? 'outlined' : 'text'}
-                    onClick={onAllClickHandler}
-                    color={'inherit'}
-            >All
-            </Button>
-            <Button variant={filter === 'active' ? 'outlined' : 'text'}
-                    onClick={onActiveClickHandler}
-                    color={'primary'}>Active
-            </Button>
-            <Button variant={filter === 'completed' ? 'outlined' : 'text'}
-                    onClick={onCompletedClickHandler}
-                    color={'secondary'}>Completed
-            </Button>
+            <ButtonWithMemo
+                variant={filter === 'all' ? 'outlined' : 'text'}
+                onClick={onAllClickHandler}
+                color={'inherit'}
+                title={'All'}
+            />
+            <ButtonWithMemo
+                variant={filter === 'active' ? 'outlined' : 'text'}
+                onClick={onActiveClickHandler}
+                color={'primary'}
+                title={'Active'}
+            />
+            <ButtonWithMemo
+                variant={filter === 'completed' ? 'outlined' : 'text'}
+                onClick={onCompletedClickHandler}
+                color={'secondary'}
+                title={'Completed'}
+            />
         </div>
     </div>
 }
