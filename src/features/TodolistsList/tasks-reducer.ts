@@ -12,7 +12,7 @@ const slice = createSlice({
     name: 'tasks',
     initialState: initialState,
     reducers: {
-        removeTaskAC(state: TasksStateType, action: PayloadAction<{ taskId: string, todolistId: string }>) {
+         removeTaskAC(state: TasksStateType, action: PayloadAction<{ taskId: string, todolistId: string }>) {
             const tasks = state[action.payload.todolistId]
             const index = tasks.findIndex(el => el.id === action.payload.taskId)
             if (index > -1) {
