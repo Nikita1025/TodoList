@@ -15,31 +15,31 @@ export const todolistsAPI = {
         return instance.get<TodolistType[]>('todo-lists');
     },
     createTodolist(title: string) {
-        return instance.post<{ title: string }, ResponseType<{ item: TodolistType }>>('todo-lists', {title});
+        return instance.post<ResponseType<{ item: TodolistType }>>('todo-lists', {title});
     },
     deleteTodolist(id: string) {
         return instance.delete<ResponseType>(`todo-lists/${id}`);
     },
     updateTodolist(id: string, title: string) {
-        return instance.put<{ title: string }, ResponseType>(`todo-lists/${id}`, {title});
+        return instance.put<ResponseType>(`todo-lists/${id}`, {title});
     },
     getTasks(todolistId: string) {
         return instance.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks`);
     },
-    deleteTask(todolistId: string, taskId: string) {
+    deleteTask(taskId: string, todolistId: string ) {
         return instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`);
     },
     createTask(todolistId: string, title: string) {
-        return instance.post<{ title: string }, ResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks`, {title});
+        return instance.post<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks`, {title});
     },
     updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
-        return instance.put<UpdateTaskModelType, ResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks/${taskId}`, model);
+        return instance.put<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks/${taskId}`, model);
     }
 }
 
 export const authAPI={
     login(data:AuthType){
-        return instance.post<AuthType, ResponseType<{userId: number}>>(`auth/login`, data)
+        return instance.post<ResponseType<{userId: number}>>(`auth/login`, data)
     },
     me(){
         return instance.get<ResponseType<{data:MeType}>>(`auth/me`)
