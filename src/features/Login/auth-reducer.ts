@@ -24,11 +24,11 @@ export const loginTC = (data: AuthType) => (dispatch: Dispatch) => {
     dispatch(setAppStatusAC({status: 'loading'}))
     authAPI.login(data)
         .then(res => {
-            if (res.resultCode === 0) {
+            if (res.data.resultCode === 0) {
                 dispatch(setIsLoggedInAC({value: true}))
                 dispatch(setAppStatusAC({status: 'succeeded'}))
             } else {
-                handleServerAppError(res, dispatch)
+                handleServerAppError(res.data, dispatch)
             }
         })
         .catch((error) => {
