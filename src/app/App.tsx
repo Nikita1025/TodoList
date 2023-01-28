@@ -13,22 +13,21 @@ import {
 import {Menu} from '@material-ui/icons'
 import {TodolistsList} from '../features/TodolistsList'
 import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar'
-import {useSelector} from 'react-redux'
 import {appActions} from '../features/Application'
 import {Route} from 'react-router-dom'
 import {authActions, Login} from '../features/Auth'
 import {selectIsInitialized, selectStatus} from '../features/Application/selectors'
 import {authSelectors} from '../features/Auth'
-import {useActions} from '../utils/redux-utils'
+import {useActions, useAppSelector} from '../utils/redux-utils'
 
 type PropsType = {
     demo?: boolean
 }
 
 function App({demo = false}: PropsType) {
-    const status = useSelector(selectStatus)
-    const isInitialized = useSelector(selectIsInitialized)
-    const isLoggedIn = useSelector(authSelectors.selectIsLoggedIn)
+    const status = useAppSelector(selectStatus)
+    const isInitialized = useAppSelector(selectIsInitialized)
+    const isLoggedIn = useAppSelector(authSelectors.selectIsLoggedIn)
 
     const {logout} = useActions(authActions)
     const {initializeApp} = useActions(appActions)
