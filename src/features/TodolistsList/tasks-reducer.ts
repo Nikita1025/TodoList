@@ -8,7 +8,9 @@ import {TaskPriorities, TaskStatuses, TaskType, UpdateTaskModelType} from '../..
 
 const initialState: TasksStateType = {}
 
-export const fetchTasks = createAsyncThunk<{ tasks: TaskType[], todolistId: string }, string, ThunkError>('tasks/fetchTasks', async (todolistId, thunkAPI) => {
+export const fetchTasks = createAsyncThunk<{ tasks: TaskType[], todolistId: string }, string, ThunkError>(
+    'tasks/fetchTasks',
+    async (todolistId, thunkAPI) => {
     thunkAPI.dispatch(appActions.setAppStatus({status: 'loading'}))
     try {
         const res = await todolistsAPI.getTasks(todolistId)
@@ -19,12 +21,14 @@ export const fetchTasks = createAsyncThunk<{ tasks: TaskType[], todolistId: stri
         return handleAsyncServerNetworkError(error, thunkAPI)
     }
 })
-export const removeTask = createAsyncThunk<{ taskId: string, todolistId: string }, { taskId: string, todolistId: string }, ThunkError>('tasks/removeTask',
+export const removeTask = createAsyncThunk<{ taskId: string, todolistId: string }, { taskId: string, todolistId: string }, ThunkError>(
+    'tasks/removeTask',
     async (param, thunkAPI) => {
         const res = await todolistsAPI.deleteTask(param.todolistId, param.taskId)
         return {taskId: param.taskId, todolistId: param.todolistId}
     })
-export const addTask = createAsyncThunk<TaskType, { title: string, todolistId: string }, ThunkError>('tasks/addTask',
+export const addTask = createAsyncThunk<TaskType, { title: string, todolistId: string }, ThunkError>(
+    'tasks/addTask',
     async (param, thunkAPI) => {
         thunkAPI.dispatch(appActions.setAppStatus({status: 'loading'}))
         try {
@@ -40,7 +44,9 @@ export const addTask = createAsyncThunk<TaskType, { title: string, todolistId: s
             return handleAsyncServerNetworkError(err, thunkAPI, false)
         }
     })
-export const updateTask = createAsyncThunk('tasks/updateTask', async (param: { taskId: string, model: UpdateDomainTaskModelType, todolistId: string },
+export const updateTask = createAsyncThunk(
+    'tasks/updateTask',
+    async (param: { taskId: string, model: UpdateDomainTaskModelType, todolistId: string },
                                                                       thunkAPI) => {
     const state = thunkAPI.getState() as AppRootStateType
 
