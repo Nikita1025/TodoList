@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useCallback} from 'react'
+import React, {ChangeEvent, memo, useCallback} from 'react'
 import {Checkbox, IconButton} from '@material-ui/core'
 import {EditableSpan} from '../../../../components/EditableSpan/EditableSpan'
 import {Delete} from '@material-ui/icons'
@@ -11,7 +11,7 @@ type TaskPropsType = {
     todolistId: string
 }
 
-export const Task = React.memo((props: TaskPropsType) => {
+export const Task = memo((props: TaskPropsType) => {
     const {updateTask, removeTask} = useActions(tasksActions)
 
     const onClickHandler = useCallback(() => removeTask({taskId: props.task.id, todolistId: props.todolistId}),
