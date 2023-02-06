@@ -2,7 +2,6 @@ import {rootReducer, store} from '../app/store'
 import {FieldErrorType} from '../api/types'
 
 
-// redux common types
 export type RootReducerType = typeof rootReducer
 
 export type AppRootStateType = ReturnType<RootReducerType>
