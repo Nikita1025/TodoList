@@ -1,7 +1,7 @@
 {
   "name": "it-incubator-todolist-ts",
-  "version": "0.1.0",
   "homepage": "https://Nikita1025.github.io/TodoList",
+  "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.10.1",
@@ -18,7 +18,7 @@
     "@types/react-redux": "^7.1.9",
     "@types/react-router-dom": "^5.1.5",
     "@types/uuid": "^7.0.3",
-    "axios": "^1.2.5",
+    "axios": "^0.19.2",
     "formik": "^2.1.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -38,14 +38,8 @@
     "storybook-debug": "start-storybook -p 9009 -s public --no-dll",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
     "jest:integration": "jest -c integration/jest.config.js",
-    "test:integration": "start-server-and-test storybook http-get://localhost:9009 jest:integration",
-    "eslint": "eslint --fix --ext .js,.jsx,.ts,.tsx src",
-    "prettier": "prettier . --write",
-    "stylelint": "stylelint \"**/*.{css,scss}\" --fix",
-    "fix": "yarn eslint && yarn prettier && yarn stylelint"
+    "test:integration": "start-server-and-test storybook http-get://localhost:9009 jest:integration"
   },
   "eslintConfig": {
     "extends": "react-app"

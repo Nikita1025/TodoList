@@ -7,6 +7,6 @@ export default {
     component: EditableSpan
 }
 
-export const EditableSpanFormBaseExample = () => {
+export const EditableSpanFormBaseExample = (props: any) => {
     return (<EditableSpan value={"StartValue"} onChange={action("value changed")} />)
 }

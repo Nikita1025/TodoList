@@ -16,7 +16,7 @@ const removeCallback = action('Remove Button inside Task clicked');
 const changeStatusCallback = action('Status changed inside Task');
 const changeTitleCallback = action('Title changed inside Task');
 
-export const TaskBaseExample = () => {
+export const TaskBaseExample = (props: any) => {
     return (
         <div>
             <Task

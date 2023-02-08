@@ -1,11 +1,13 @@
 import React from 'react'
 import {Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField} from '@material-ui/core'
 import {FormikHelpers, useFormik} from 'formik'
+import {useSelector} from 'react-redux'
 import {login} from './auth-reducer'
 import {Redirect} from 'react-router-dom'
 import {selectIsLoggedIn} from './selectors'
 import {authActions} from './index'
-import {useAppDispatch, useAppSelector} from '../../utils/redux-utils'
+import {Action} from 'redux'
+import {useActions, useAppDispatch} from '../../utils/redux-utils'
 
 type FormValuesType = {
     email: string
@@ -16,7 +18,7 @@ type FormValuesType = {
 export const Login = () => {
     const dispatch = useAppDispatch()
 
-    const isLoggedIn = useAppSelector(selectIsLoggedIn);
+    const isLoggedIn = useSelector(selectIsLoggedIn);
 
     const formik = useFormik({
         validate: (values) => {
@@ -78,14 +80,14 @@ export const Login = () => {
                             margin="normal"
                             {...formik.getFieldProps("email")}
                         />
-                        {formik.errors.email ? <div style={{color:'red'}}>{formik.errors.email}</div> : null}
+                        {formik.errors.email ? <div>{formik.errors.email}</div> : null}
                         <TextField
                             type="password"
                             label="Password"
                             margin="normal"
                             {...formik.getFieldProps("password")}
                         />
-                        {formik.errors.password ? <div style={{color:'red'}}>{formik.errors.password}</div> : null}
+                        {formik.errors.password ? <div>{formik.errors.password}</div> : null}
                         <FormControlLabel
                             label={'Remember me'}
                             control={<Checkbox

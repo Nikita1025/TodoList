@@ -1,6 +1,8 @@
 import React from 'react'
+import {action} from '@storybook/addon-actions'
 import App from './App'
 import {BrowserRouterDecorator, ReduxStoreProviderDecorator} from '../stories/decorators/ReduxStoreProviderDecorator'
+import StoryRouter from 'storybook-react-router';
 
 export default {
     title: 'Application Stories',
@@ -8,6 +10,6 @@ export default {
     decorators: [ReduxStoreProviderDecorator, BrowserRouterDecorator]
 }
 
-export const AppBaseExample = () => {
-    return (<App demo={true} />)
+export const AppBaseExample = (props: any) => {
+    return (<App />)
 }

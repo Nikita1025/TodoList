@@ -1,4 +1,4 @@
-import React, {memo, useCallback, useEffect} from 'react'
+import React, {useCallback, useEffect} from 'react'
 import {AddItemForm, AddItemFormSubmitHelperType} from '../../../components/AddItemForm/AddItemForm'
 import {EditableSpan} from '../../../components/EditableSpan/EditableSpan'
 import {Button, IconButton, Paper, PropTypes} from '@material-ui/core'
@@ -15,7 +15,7 @@ type PropsType = {
     demo?: boolean
 }
 
-export const Todolist = memo(function ({demo = false, ...props}: PropsType) {
+export const Todolist = React.memo(function ({demo = false, ...props}: PropsType) {
     const {fetchTasks} = useActions(tasksActions)
     const {changeTodolistFilter, removeTodolistTC, changeTodolistTitleTC} = useActions(todolistsActions)
 
@@ -25,7 +25,9 @@ export const Todolist = memo(function ({demo = false, ...props}: PropsType) {
         if (demo) {
             return
         }
-        fetchTasks(props.todolist.id)
+        if (!props.tasks.length) {
+            fetchTasks(props.todolist.id)
+        }
     }, [])
 
     const addTaskCallback = useCallback(async (title: string, helper: AddItemFormSubmitHelperType) => {
