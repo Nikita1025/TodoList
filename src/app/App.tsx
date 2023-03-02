@@ -21,9 +21,7 @@ import {selectIsInitialized, selectStatus} from '../features/Application/selecto
 import {authSelectors} from '../features/Auth'
 import {useActions} from '../utils/redux-utils'
 
-type PropsType = {}
-
-function App(props: PropsType) {
+function App() {
     const status = useSelector(selectStatus)
     const isInitialized = useSelector(selectIsInitialized)
     const isLoggedIn = useSelector(authSelectors.selectIsLoggedIn)
